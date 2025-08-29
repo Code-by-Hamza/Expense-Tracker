@@ -145,7 +145,7 @@ def main():
             print("Save Successfully! GoodBye!")
             break
         else:
-            print("Invalid Choice!")
+            print("Invalid Choice! Try again!")
 
 if __name__ == "__main__" :
     main()
