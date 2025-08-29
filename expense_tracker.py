@@ -20,11 +20,12 @@ def save_file(expenses):
 def menu():
     print("\n---MAIN MENU---")
     print("1. Add Expense")
-    print("2. View all Expenses")
-    print("3. View Summary")
-    print("4. Delete Expense")
-    print("5. Search for a category")
-    print("6. Save & Exit")
+    print("2. Delete Expense")
+    print("3. Search for a category")
+    print("4. View all Expenses")
+    print("5. View Summary")
+    print("6. View Category wise Summary")
+    print("7. Save & Exit")
 
 #add expenses
 def add(expenses):
@@ -41,6 +42,7 @@ def add(expenses):
             "amount": amount,
             "date": now}
     expenses.append(new)
+    print("Added Successfully!")
 
 #delete espenses
 def delete(expenses):
@@ -103,6 +105,21 @@ def analyze(expenses):
     else:
         return "List is Empty!"
 
+#category summary
+def category_summary(expences):
+    if not expences:
+        print("Nothing to Summarize")
+        return
+    summary = {}
+    for expense in expences:
+        cat = expense['category']
+        amt = expense['amount']
+        summary[cat] = summary.get(cat,0) + amt
+    
+    print("\n---Category Summary---")
+    for cat,total in summary.items():
+        print(f"  {cat}: {total}")
+
 #main loop
 def main():
     expenses = load_file()
@@ -112,17 +129,18 @@ def main():
 
         if choice == "1":
             add(expenses)
-            print("Added Successfully!")
         elif choice == "2":
+            delete(expenses)
+        elif choice == "3":
+            search(expenses)
+        elif choice == "4":
             print("Current Expenses:")
             view(expenses)
-        elif choice == "3":
-            print(analyze(expenses))
-        elif choice == "4":
-            delete(expenses)
         elif choice == "5":
-            search(expenses)
+            print(analyze(expenses))
         elif choice == "6":
+            category_summary(expenses)
+        elif choice == "7":
             save_file(expenses)
             print("Save Successfully! GoodBye!")
             break
