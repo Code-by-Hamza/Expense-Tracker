@@ -8,6 +8,7 @@ A simple command-line expense tracker written in Python. This tool allows you to
 - **View Summary:** See total, average, and highest expense.
 - **Delete Expense:** Remove an expense by selecting its number.
 - **Search by Category:** Find expenses by category and see subtotals.
+- **Category Summary** See total category wise.
 - **Save & Exit:** Save all changes to `expenses.json` and exit.
 
 ## How It Works
@@ -23,10 +24,10 @@ A simple command-line expense tracker written in Python. This tool allows you to
 2. Follow the on-screen menu to manage your expenses.
 
 ## Requirements
-- Python 3.x
+- Python 3.10+
 
 ## File Structure
-- `expence_tracker.py`: Main script.
+- `expense_tracker.py`: Main script.
 - `expenses.json`: Data file (created automatically).
 
 ## Example
@@ -38,7 +39,4 @@ A simple command-line expense tracker written in Python. This tool allows you to
 4. Delete Expense
 5. Search for a category
 6. Save & Exit
-```
-
-## License
-This project is for personal use and learning purposes.
+~~~
