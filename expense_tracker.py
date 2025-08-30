@@ -108,7 +108,7 @@ def analyze(expenses):
 #category summary
 def category_summary(expences):
     if not expences:
-        print("Nothing to Summarize")
+        print("Nothing to Summarize T-T")
         return
     summary = {}
     for expense in expences:
