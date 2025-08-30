@@ -1,6 +1,6 @@
 # Expense Tracker
 
-A simple command-line expense tracker written in Python. This tool allows you to add, view, search, delete, and analyze your expenses, storing all data in a local JSON file.
+A simple command-line expense tracker written in Python. This tool allows you to add, view, search, delete, and analyze your expenses, analyze by category, storing all data in a local JSON file.
 
 ## Features
 - **Add Expense:** Enter amount and category to log a new expense.
@@ -34,9 +34,10 @@ A simple command-line expense tracker written in Python. This tool allows you to
 ```
 ---MAIN MENU---
 1. Add Expense
-2. View all Expenses
-3. View Summary
-4. Delete Expense
-5. Search for a category
-6. Save & Exit
+2. Delete Expense
+3. Search for a category
+4. View all Expenses
+5. View Summary
+6. View Category wise Summary
+7. Save & Exit
 ~~~
