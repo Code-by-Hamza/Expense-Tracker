@@ -1,6 +1,6 @@
 # Expense Tracker
 
-A simple command-line expense tracker written in Python. This tool allows you to add, view (Sorted by date), search, delete, and analyze your expenses, analyze by category,edit expenses, storing all data in a local JSON file.
+A simple command-line expense tracker written in Python. This tool allows you to add, view (Sorted by date), search, delete, and analyze your expenses, analyze by category,edit expenses,create a csv file, storing all data in a local JSON file.
 
 ## Features
 - **Add Expense:** Enter amount and category to log a new expense.
@@ -10,6 +10,7 @@ A simple command-line expense tracker written in Python. This tool allows you to
 - **Edit Expenses** Edit existing Expenses.
 - **Search by Category:** Find expenses by category and see subtotals.
 - **Category Summary** See total category wise.
+- **Export as CSV** Create a .csv file that can be exported.
 - **Save & Exit:** Save all changes to `expenses.json` and exit.
 
 ## How It Works
@@ -24,12 +25,15 @@ A simple command-line expense tracker written in Python. This tool allows you to
    ```
 2. Follow the on-screen menu to manage your expenses.
 
+3. You can also open it in code editors like VScode.
+
 ## Requirements
 - Python 3.10+
 
 ## File Structure
 - `expense_tracker.py`: Main script.
 - `expenses.json`: Data file (created automatically).
+- `expenses.csv` : CSV file for exporting.
 
 ## Example
 ```
@@ -41,5 +45,6 @@ A simple command-line expense tracker written in Python. This tool allows you to
 5. View all Expenses (Sorted by date)
 6. View Summary
 7. View Category wise Summary
+8. Export Expenses as CSV
 8. Save & Exit
 ~~~

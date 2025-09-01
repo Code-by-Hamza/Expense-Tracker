@@ -1,4 +1,4 @@
-import json,os
+import json,os,csv
 from datetime import datetime 
 
 #menu
@@ -11,7 +11,8 @@ def menu():
     print("5.➡ View all Expenses")
     print("6.➡ View Summary")
     print("7.➡ View Category wise Summary")
-    print("8.➡ Save & Exit")
+    print("8.➡ Export Expenses as CSV")
+    print("9.➡ Save & Exit")
 
 #load file 
 def load_file(file="expenses.json"):
@@ -30,7 +31,7 @@ def save_file(expenses, file="expenses.json"):
     filepath = os.path.join(script_dir, file)
     with open(filepath,"w") as f:
         json.dump(expenses,f,indent=4)
-    print("✔ Save Successfully! GoodBye!👋")
+    print("✔ Saved Successfully! GoodBye!👋")
 
 #add expenses
 def add(expenses):
@@ -47,7 +48,7 @@ def add(expenses):
             break
         except ValueError:
             print("❌ Invalid Number! Please Enter digits")
-    now = datetime.now().strftime("%B %d, %Y")
+    now = datetime.now().strftime("%a,%b %#d,%y")
     new = {"category": category,
             "amount": amount,
             "date": now}
@@ -61,7 +62,7 @@ def delete(expenses):
         return
 
     for i, expense in enumerate(expenses, start=1):
-        print(f"{i}. {expense['category']} - {expense['amount']}")
+        print(f"{i}.{expense['date']}  -{expense['category']:<7} -{expense['amount']}")
 
     while True:
         try:
@@ -78,14 +79,15 @@ def delete(expenses):
 #search expenses 
 def search(expenses):
     select = input("🔎Search by Category: ").lower().strip()
-    result = [expense for expense in expenses if select == expenses['category']]
+    result = [expense for expense in expenses if select == expense['category']]
 
     if result:
-        print(f"\n---Results for {select}:---")
+        print(f"\n-----Results for {select}:-----")
         for i,expense in enumerate(result,start=1):
-            print(f"{i}. Category: {expense['category']}, Amount: {expense['amount']}, Date: {expense['date']}")
+            print(f"{i}. {expense['date']:<14} {expense['category']:<10}Amount: {expense['amount']:<10}")
+            subtotal = 0
             subtotal += expense['amount']
-        print(f"\n---💲Subtotal: {subtotal}---")
+        print(f"\n-----💲Subtotal: {subtotal}-----")
     else:
         print(f"❌{select} is not present in expenses!")
 
@@ -96,12 +98,15 @@ def view(expenses):
         print("List is empty💨")
         return
     #sort by date
-    sorted_expenses = sorted(expenses, key=lambda x: datetime.strptime(x['date'], "%B %d, %Y"),reverse=True)
+    sorted_expenses = sorted(expenses, key=lambda x: datetime.strptime(x['date'], "%a,%b %#d,%y"),reverse=True)
     
     total = 0
-    print("💲Current Expenses: (Sorted by Date)")
+    print("💲Current Expenses: (Sorted by Date)\n")
+    print(f"{'#':<3} {'Date':<14} {'Category':<15} {'Amount':<10}")
+    print(f"-" * 45)
+
     for i, expense in enumerate(sorted_expenses, start=1):
-            print(f"{i}. {expense['category']}, {expense['amount']}, {expense['date']}")
+            print(f"{i}.  {expense['date']:<14} {expense['category']:<15}{expense['amount']:<10}")
             total += expense['amount']
     print(f"\n-----💲Total so far: {total}-----")
 
@@ -113,9 +118,9 @@ def analyze(expenses):
         total = sum(amounts)
         highest = max(amounts)
         average = round(total / len(amounts), 2)
-        return (f"\n-Summary-\n 💲Total Expense: {total}\n"
+        return (f"\n-----Summary-----\n💲Total Expense:{' ':<7}{total}\n"
                 f"💲Average per Expense: {average}\n"
-                f"💲Highest Expense: {highest}\n")
+                f"💲Highest Expense:{' ':<5}{highest}\n")
     else:
         return "List is Empty!💨"
 
@@ -130,9 +135,9 @@ def category_summary(expences):
         amt = expense['amount']
         summary[cat] = summary.get(cat,0) + amt
     
-    print("\n---Category Summary---")
+    print("\n----Category Summary----")
     for cat,total in summary.items():
-        print(f"  {cat}: {total}")
+        print(f"    {cat:<10}: {total}")
 
 #edit expenses
 def edit_expenses(expenses):
@@ -141,7 +146,7 @@ def edit_expenses(expenses):
         return
 
     for i,expense in enumerate(expenses):
-        print(f"{i}. {expense['category']}:  💲{expense['amount']} ➡ 📅  {expense['date']}")
+        print(f"{i}. {expense['category']:<10}:  💲{expense['amount']:<5} ➡ {expense['date']}")
 
     while True:
         try:
@@ -170,4 +175,17 @@ def edit_expenses(expenses):
         expense['date'] = new_date
     
     print("Expense Edited Successfully!")
+
+#export in csv
+def export_to_csv(expenses,filename="expenses.csv"):
+    if not expenses:
+        print("No Expenses to Export!")
+        return
+    
+    with open(filename,mode="w",newline="") as file:
+        writer = csv.DictWriter(file,fieldnames=['date','category','amount'])
+        writer.writeheader()
+        writer.writerows(expenses)
+
+    print("Expenses exported Successfully! Filename = 'expenses.csv'")
 
