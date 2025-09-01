@@ -6,11 +6,12 @@ def menu():
     print("\n---MAIN MENU---")
     print("1.➡ Add Expense")
     print("2.➡ Delete Expense")
-    print("3.➡ Search for a category")
-    print("4.➡ View all Expenses")
-    print("5.➡ View Summary")
-    print("6.➡ View Category wise Summary")
-    print("7.➡ Save & Exit")
+    print("3.➡ Edit Expense")
+    print("4.➡ Search for a category")
+    print("5.➡ View all Expenses")
+    print("6.➡ View Summary")
+    print("7.➡ View Category wise Summary")
+    print("8.➡ Save & Exit")
 
 #load file 
 def load_file(file="expenses.json"):
@@ -94,12 +95,15 @@ def view(expenses):
     if not expenses:
         print("List is empty💨")
         return
+    #sort by date
+    sorted_expenses = sorted(expenses, key=lambda x: datetime.strptime(x['date'], "%B %d, %Y"),reverse=True)
+    
     total = 0
-    print("💲Current Expenses:")
-    for i, expense in enumerate(expenses, start=1):
-            print(f"{i}. Category: {expense['category']}, Amount: {expense['amount']}, Date: {expense['date']}")
+    print("💲Current Expenses: (Sorted by Date)")
+    for i, expense in enumerate(sorted_expenses, start=1):
+            print(f"{i}. {expense['category']}, {expense['amount']}, {expense['date']}")
             total += expense['amount']
-    print(f"\n---💲Total so far: {total}---")
+    print(f"\n-----💲Total so far: {total}-----")
 
 
 # summary / analyze
@@ -129,3 +133,41 @@ def category_summary(expences):
     print("\n---Category Summary---")
     for cat,total in summary.items():
         print(f"  {cat}: {total}")
+
+#edit expenses
+def edit_expenses(expenses):
+    if not expenses:
+        print("No Expenses to Edit")
+        return
+
+    for i,expense in enumerate(expenses):
+        print(f"{i}. {expense['category']}:  💲{expense['amount']} ➡ 📅  {expense['date']}")
+
+    while True:
+        try:
+            choice = int(input("Choose a Number to Edit:"))
+            if 0 <= choice < len(expenses):
+                break
+            else:
+                print(f"Invalid Choice! Enter a digit from 0 to {len(expenses) - 1}")
+        except ValueError:
+            print("Invalid Choice! Please enter a Number")
+
+    expense = expenses[choice]
+
+    new_cat = input(f"Enter New Category\n(Leave blank to keep {expense['category']}):  ")
+    new_amt = input(f"Enter New Amount\n(Leave blank to keep {expense['amount']}):  ")
+    new_date = input(f"Enter New Date\n(Leave blank to keep {expense['date']}):  ")
+    
+    if new_cat:
+        expense['category'] = new_cat
+    if new_amt:
+        try:
+            expense['amount'] = float(new_amt)
+        except ValueError:
+            print("Invalid Choice! Keeping the old Value")
+    if new_date:
+        expense['date'] = new_date
+    
+    print("Expense Edited Successfully!")
+

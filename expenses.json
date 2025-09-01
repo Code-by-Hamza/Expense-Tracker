@@ -1,0 +1,17 @@
+[
+    {
+        "category": "food",
+        "amount": 230,
+        "date": "August 31, 2025"
+    },
+    {
+        "category": "drink",
+        "amount": 300,
+        "date": "August 31, 2025"
+    },
+    {
+        "category": "food",
+        "amount": 500.0,
+        "date": "August 30, 2025"
+    }
+]
