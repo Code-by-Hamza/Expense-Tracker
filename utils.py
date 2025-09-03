@@ -34,16 +34,35 @@ def save_file(expenses, file="expenses.json"):
         json.dump(expenses,f,indent=4)
     print("✔ Saved Successfully! GoodBye!👋")
 
-#undo last action
-last_action = {
-    "type": None,
-    "expense": None,
-    "index": None
-}
+#undo file 
+undo_file = "undo.json"
+#undo load
+def load_undofile():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(script_dir,undo_file)
+    if not os.path.exists(filepath):
+        return None
+    with open(filepath, "r") as f:
+        return json.load(f)
+#undo save
+def save_undofile(action):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(script_dir, undo_file)
+    with open(filepath, "w") as f:
+        json.dump(action, f)
+#undo clear
+def clear_undofile():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(script_dir,undo_file)
+    if os.path.exists(filepath):
+        os.remove(filepath)
 
-def undo_action(expenses,last_action):
-    if last_action['type'] is None:
-        print("No action to edit!")
+#undo last action
+last_action = {}
+def undo_action(expenses):
+    last_action = load_undofile()
+    if not last_action:
+        print("No action to Undo!")
         return
     
     if last_action['type'] == 'delete':
@@ -55,10 +74,8 @@ def undo_action(expenses,last_action):
     elif last_action['type'] == 'add':
         expenses.pop()
         print("✔Undo Successful! Deleted Added Expense.")
-    #reset last_action
-    last_action['type'] =  None
-    last_action['expense'] =  None
-    last_action['index'] =  None
+
+    clear_undofile()
 
 
 
@@ -84,9 +101,11 @@ def add(expenses):
             "amount": amount,
             "date": now}
     expenses.append(new)
-    last_action['type'] = "add"
-    last_action['expense'] = new
-    last_action['index'] = len(expenses) - 1
+    save_undofile({
+            'type': 'add',
+            'index': len(expenses) - 1,
+            'expense': new
+                })
     print("✔ Added Successfully!")
 
 #delete espenses
@@ -103,10 +122,12 @@ def delete(expenses):
             choice = int(input("Enter the Number you wish to Delete:  "))
             if 1 <= choice <= len(expenses):
                 removed = expenses.pop(choice - 1)
-                last_action['type'] = "delete"
-                last_action['expense'] = removed 
-                last_action["index"] = choice - 1
                 print(f"Deleted: {removed['category']} - {removed['amount']}")
+                save_undofile({
+                    'type': 'delete',
+                    'index': choice - 1,
+                    'expense': removed
+                })
                 break
             else:
                 print(f"❌Please Enter a Valid Digit between 1 and {len(expenses)}.")
@@ -211,10 +232,11 @@ def edit_expenses(expenses):
             print("❌Invalid Choice! Keeping the old Value")
     if new_date:
         expense['date'] = new_date
-    
-    last_action ['type'] = "edit"
-    last_action ['expense'] = old_expense
-    last_action ['index'] = choice - 1
+    save_undofile({
+            'type': 'edit',
+            'index': choice - 1,
+            'expense': old_expense
+            })
     print("Expense Edited ✔Successfully!")
 
 #export in csv
@@ -222,11 +244,12 @@ def export_to_csv(expenses,filename="expenses.csv"):
     if not expenses:
         print("No Expenses to Export!")
         return
-    
-    with open(filename,mode="w",newline="") as file:
-        writer = csv.DictWriter(file,fieldnames=['date','category','amount'])
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(script_dir, filename)
+    with open(filepath, mode="w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=['date', 'category', 'amount'])
         writer.writeheader()
         writer.writerows(expenses)
 
-    print("Expenses exported ✔Successfully! Filename = 'expenses.csv'")
-
+    print(f"Expenses exported ✔Successfully! Filename = '{filepath}'")

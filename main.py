@@ -1,4 +1,4 @@
-from utils import load_file,menu,add,delete,search,view,analyze,undo_action,last_action
+from utils import load_file,menu,add,delete,search,view,analyze,undo_action
 from utils import category_summary,save_file,edit_expenses,export_to_csv
 #main loop
 def main():
@@ -14,7 +14,7 @@ def main():
         elif choice == "3":
             edit_expenses(expenses)
         elif choice == "4":
-            undo_action(expenses,last_action)
+            undo_action(expenses)
         elif choice == "5":
             search(expenses)
         elif choice == "6":

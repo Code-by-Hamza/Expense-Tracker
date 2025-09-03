@@ -18,6 +18,7 @@ A simple command-line expense tracker written in Python. This tool allows you to
 - Expenses are stored in `expenses.json` in the project root.
 - The program uses a simple menu-driven interface.
 - All amounts are entered as integers.
+- Undo function is persistant.
 
 ## Usage
 1. Run the script:
