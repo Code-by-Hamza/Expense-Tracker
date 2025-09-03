@@ -22,11 +22,11 @@ A simple command-line expense tracker written in Python. This tool allows you to
 ## Usage
 1. Run the script:
    ```powershell
-   python expence_tracker.py
+   python main.py
    ```
 2. Follow the on-screen menu to manage your expenses.
 
-3. You can also open it in code editors like VScode.
+3. You can also open the folder in code editors like VScode.
 
 ## Requirements
 - Python 3.10+
