@@ -1,54 +1,60 @@
+
 # Expense Tracker
 
-A simple command-line expense tracker written in Python. This tool allows you to add, view (Sorted by date), search, delete, undo last action, summarize your expenses, summarize by category,edit expenses,create a csv file and storing all data in a local JSON file.
+A simple command-line expense tracker written in Python. This tool lets you add, view (sorted by date), search, delete, edit, undo last action, summarize your expenses, view category summaries, export your data to CSV, and import expenses from CSV. All data is stored locally in JSON and CSV files.
 
 ## Features
-- **Add Expense:** Enter amount and category to log a new expense.
+- **Add Expense:** Log a new expense with category and amount.
 - **Delete Expense:** Remove an expense by selecting its number.
-- **Edit Expenses** Edit existing Expenses.
-- **Undo last action** Undo the previous change.
+- **Edit Expense:** Update category, amount, or date for any expense.
+- **Undo Last Action:** Undo your previous add, edit, or delete (persistent across runs).
 - **Search by Category:** Find expenses by category and see subtotals.
-- **View Expenses:** Display all recorded expenses with totals.
+- **View Expenses:** Display all expenses sorted by date, with totals.
 - **View Summary:** See total, average, and highest expense.
-- **Category Summary** See total category wise.
-- **Export as CSV** Create a .csv file that can be exported.
+- **Category Summary:** View totals for each category.
+- **Export as CSV File:** Export all expenses to a CSV file in the project folder.
+- **Import Expenses from CSV File:** Import expenses from a CSV file into your tracker.
 - **Save & Exit:** Save all changes to `expenses.json` and exit.
 
+
 ## How It Works
-- Expenses are stored in `expenses.json` in the project root.
-- The program uses a simple menu-driven interface.
-- All amounts are entered as integers.
-- Undo function is persistant.
+- Expenses are stored in `expenses.json` in the project folder.
+- Undo actions are saved in `undo.json` for persistent undo.
+- CSV exports and imports are handled in the same folder as the script.
+- The program uses a menu-driven interface in the terminal.
+- All amounts are entered as integers (editing allows float).
 
 ## Usage
 1. Run the script:
    ```powershell
    python main.py
    ```
-2. Follow the on-screen menu to manage your expenses.
-
-3. You can also open the folder in code editors like VScode.
+2. Follow the menu to manage your expenses.
+3. You can also open the folder in VS Code or any code editor.
 
 ## Requirements
 - Python 3.10+
 
-## File Structure
-- `main.py`: Main script.
-- `utils.py` : All features.
-- `expenses.json`: Data file (created automatically).
-- `expenses.csv` : CSV file for exporting.
 
-## Example
+## File Structure
+- `main.py`: Main script and entry point.
+- `utils.py`: All features and logic.
+- `expenses.json`: Data file (created automatically).
+- `undo.json`: Stores last action for undo (persistent).
+- `expenses.csv`: CSV file for exporting and importing expenses.
+
+## Example Menu
 ```
----MAIN MENU---
-1. Add Expense
-2. Delete Expense
-3. Edit Expense
-4. Undo Last Action
-5. Search for a category
-6. View all Expenses (Sorted by date)
-7. View Summary
-8. View Category wise Summary
-9. Export Expenses as CSV
-10. Save & Exit
-~~~
+-----MAIN MENU-----
+1. ➡ Add Expense
+2. ➡ Delete Expense
+3. ➡ Edit Expense
+4. ➡ Undo Last Action
+5. ➡ Search for a category
+6. ➡ View all Expenses
+7. ➡ View Summary
+8. ➡ View Category wise Summary
+9. ➡ Export Expenses as CSV File
+10.➡ Import Expenses from CSV File
+11.➡ Save & Exit
+```

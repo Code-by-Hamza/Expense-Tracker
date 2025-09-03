@@ -1,5 +1,5 @@
 from utils import load_file,menu,add,delete,search,view,analyze,undo_action
-from utils import category_summary,save_file,edit_expenses,export_to_csv
+from utils import category_summary,save_file,edit_expenses,export_to_csv,import_csv
 #main loop
 def main():
     expenses = load_file()
@@ -26,6 +26,8 @@ def main():
         elif choice == "9":
             export_to_csv(expenses)
         elif choice == "10":
+            import_csv(expenses)
+        elif choice == "11":
             save_file(expenses)
             break
         else:

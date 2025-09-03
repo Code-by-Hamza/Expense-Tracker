@@ -12,8 +12,9 @@ def menu():
     print("6. ➡ View all Expenses")
     print("7. ➡ View Summary")
     print("8. ➡ View Category wise Summary")
-    print("9. ➡ Export Expenses as CSV")
-    print("10.➡ Save & Exit")
+    print("9. ➡ Export Expenses as CSV File")
+    print("10.➡ Import Expenses from CSV File")
+    print("11.➡ Save & Exit")
 
 #load file 
 def load_file(file="expenses.json"):
@@ -253,3 +254,24 @@ def export_to_csv(expenses,filename="expenses.csv"):
         writer.writerows(expenses)
 
     print(f"Expenses exported ✔Successfully! Filename = '{filepath}'")
+
+#import from csv
+def import_csv(expenses, filename="expenses.csv"):
+    try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        filepath = os.path.join(script_dir, filename)
+        with open(filepath,mode="r") as f:
+            reader = csv.DictReader(f)
+            for row in reader :
+                expense = {
+                    "category": row["category"].lower().strip(),
+                    "amount": int(row["amount"]),
+                    "date": row["date"]
+                }
+                if expense not in expenses:
+                    expenses.append(expense)
+        print(f"Imported expenses from {filename} successfuly!")
+    except FileNotFoundError:
+        print(f"{filename} not Found!")
+    except Exception as e:
+        print(f"Error importing from {filename}: {e}")
