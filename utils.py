@@ -3,16 +3,17 @@ from datetime import datetime
 
 #menu
 def menu():
-    print("\n---MAIN MENU---")
-    print("1.➡ Add Expense")
-    print("2.➡ Delete Expense")
-    print("3.➡ Edit Expense")
-    print("4.➡ Search for a category")
-    print("5.➡ View all Expenses")
-    print("6.➡ View Summary")
-    print("7.➡ View Category wise Summary")
-    print("8.➡ Export Expenses as CSV")
-    print("9.➡ Save & Exit")
+    print("\n-----MAIN MENU-----")
+    print("1. ➡ Add Expense")
+    print("2. ➡ Delete Expense")
+    print("3. ➡ Edit Expense")
+    print("4. ➡ Undo Last Action")
+    print("5. ➡ Search for a category")
+    print("6. ➡ View all Expenses")
+    print("7. ➡ View Summary")
+    print("8. ➡ View Category wise Summary")
+    print("9. ➡ Export Expenses as CSV")
+    print("10.➡ Save & Exit")
 
 #load file 
 def load_file(file="expenses.json"):
@@ -32,6 +33,36 @@ def save_file(expenses, file="expenses.json"):
     with open(filepath,"w") as f:
         json.dump(expenses,f,indent=4)
     print("✔ Saved Successfully! GoodBye!👋")
+
+#undo last action
+last_action = {
+    "type": None,
+    "expense": None,
+    "index": None
+}
+
+def undo_action(expenses,last_action):
+    if last_action['type'] is None:
+        print("No action to edit!")
+        return
+    
+    if last_action['type'] == 'delete':
+        expenses.insert(last_action['index'],last_action['expense'])
+        print("✔Undo Successful! Restored deleted expense.")
+    elif last_action['type'] == 'edit':
+        expenses[last_action['index']] = last_action['expense']
+        print("✔Undo Successful! Reverted edited expense.")
+    elif last_action['type'] == 'add':
+        expenses.pop()
+        print("✔Undo Successful! Deleted Added Expense.")
+    #reset last_action
+    last_action['type'] =  None
+    last_action['expense'] =  None
+    last_action['index'] =  None
+
+
+
+
 
 #add expenses
 def add(expenses):
@@ -53,6 +84,9 @@ def add(expenses):
             "amount": amount,
             "date": now}
     expenses.append(new)
+    last_action['type'] = "add"
+    last_action['expense'] = new
+    last_action['index'] = len(expenses) - 1
     print("✔ Added Successfully!")
 
 #delete espenses
@@ -69,6 +103,9 @@ def delete(expenses):
             choice = int(input("Enter the Number you wish to Delete:  "))
             if 1 <= choice <= len(expenses):
                 removed = expenses.pop(choice - 1)
+                last_action['type'] = "delete"
+                last_action['expense'] = removed 
+                last_action["index"] = choice - 1
                 print(f"Deleted: {removed['category']} - {removed['amount']}")
                 break
             else:
@@ -145,20 +182,21 @@ def edit_expenses(expenses):
         print("No Expenses to Edit")
         return
 
-    for i,expense in enumerate(expenses):
+    for i,expense in enumerate(expenses,start=1):
         print(f"{i}. {expense['category']:<10}:  💲{expense['amount']:<5} ➡ {expense['date']}")
 
     while True:
         try:
             choice = int(input("Choose a Number to Edit:"))
-            if 0 <= choice < len(expenses):
+            if 1 <= choice <= len(expenses):
                 break
             else:
-                print(f"Invalid Choice! Enter a digit from 0 to {len(expenses) - 1}")
+                print(f"❌Invalid Choice! Enter a digit from 1 to {len(expenses)}")
         except ValueError:
-            print("Invalid Choice! Please enter a Number")
+            print("❌Invalid Choice! Please enter a Number")
 
-    expense = expenses[choice]
+    expense = expenses[choice - 1]
+    old_expense = expense.copy()
 
     new_cat = input(f"Enter New Category\n(Leave blank to keep {expense['category']}):  ")
     new_amt = input(f"Enter New Amount\n(Leave blank to keep {expense['amount']}):  ")
@@ -170,11 +208,14 @@ def edit_expenses(expenses):
         try:
             expense['amount'] = float(new_amt)
         except ValueError:
-            print("Invalid Choice! Keeping the old Value")
+            print("❌Invalid Choice! Keeping the old Value")
     if new_date:
         expense['date'] = new_date
     
-    print("Expense Edited Successfully!")
+    last_action ['type'] = "edit"
+    last_action ['expense'] = old_expense
+    last_action ['index'] = choice - 1
+    print("Expense Edited ✔Successfully!")
 
 #export in csv
 def export_to_csv(expenses,filename="expenses.csv"):
@@ -187,5 +228,5 @@ def export_to_csv(expenses,filename="expenses.csv"):
         writer.writeheader()
         writer.writerows(expenses)
 
-    print("Expenses exported Successfully! Filename = 'expenses.csv'")
+    print("Expenses exported ✔Successfully! Filename = 'expenses.csv'")
 

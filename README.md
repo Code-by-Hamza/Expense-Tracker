@@ -1,14 +1,15 @@
 # Expense Tracker
 
-A simple command-line expense tracker written in Python. This tool allows you to add, view (Sorted by date), search, delete, and analyze your expenses, analyze by category,edit expenses,create a csv file, storing all data in a local JSON file.
+A simple command-line expense tracker written in Python. This tool allows you to add, view (Sorted by date), search, delete, undo last action, summarize your expenses, summarize by category,edit expenses,create a csv file and storing all data in a local JSON file.
 
 ## Features
 - **Add Expense:** Enter amount and category to log a new expense.
-- **View Expenses:** Display all recorded expenses with totals.
-- **View Summary:** See total, average, and highest expense.
 - **Delete Expense:** Remove an expense by selecting its number.
 - **Edit Expenses** Edit existing Expenses.
+- **Undo last action** Undo the previous change.
 - **Search by Category:** Find expenses by category and see subtotals.
+- **View Expenses:** Display all recorded expenses with totals.
+- **View Summary:** See total, average, and highest expense.
 - **Category Summary** See total category wise.
 - **Export as CSV** Create a .csv file that can be exported.
 - **Save & Exit:** Save all changes to `expenses.json` and exit.
@@ -31,7 +32,8 @@ A simple command-line expense tracker written in Python. This tool allows you to
 - Python 3.10+
 
 ## File Structure
-- `expense_tracker.py`: Main script.
+- `main.py`: Main script.
+- `utils.py` : All features.
 - `expenses.json`: Data file (created automatically).
 - `expenses.csv` : CSV file for exporting.
 
@@ -41,10 +43,11 @@ A simple command-line expense tracker written in Python. This tool allows you to
 1. Add Expense
 2. Delete Expense
 3. Edit Expense
-4. Search for a category
-5. View all Expenses (Sorted by date)
-6. View Summary
-7. View Category wise Summary
-8. Export Expenses as CSV
-8. Save & Exit
+4. Undo Last Action
+5. Search for a category
+6. View all Expenses (Sorted by date)
+7. View Summary
+8. View Category wise Summary
+9. Export Expenses as CSV
+10. Save & Exit
 ~~~

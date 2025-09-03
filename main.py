@@ -1,11 +1,11 @@
-from utils import load_file,menu,add,delete,search,view,analyze,category_summary,save_file,edit_expenses,export_to_csv
-
+from utils import load_file,menu,add,delete,search,view,analyze,undo_action,last_action
+from utils import category_summary,save_file,edit_expenses,export_to_csv
 #main loop
 def main():
     expenses = load_file()
     while True:
         menu()
-        choice = input("Choose a Option:  ").lower().strip()
+        choice = input("\n➡ Choose a Option:  ").lower().strip()
 
         if choice == "1":
             add(expenses)
@@ -14,20 +14,22 @@ def main():
         elif choice == "3":
             edit_expenses(expenses)
         elif choice == "4":
-            search(expenses)
+            undo_action(expenses,last_action)
         elif choice == "5":
-            view(expenses)
+            search(expenses)
         elif choice == "6":
-            print(analyze(expenses))
+            view(expenses)
         elif choice == "7":
-            category_summary(expenses)
+            print(analyze(expenses))
         elif choice == "8":
-            export_to_csv(expenses)
+            category_summary(expenses)
         elif choice == "9":
+            export_to_csv(expenses)
+        elif choice == "10":
             save_file(expenses)
             break
         else:
-            print("Invalid Choice! Try again!")
+            print("Invalid❌ Choice! Try again!")
 
 if __name__ == "__main__" :
     main()
