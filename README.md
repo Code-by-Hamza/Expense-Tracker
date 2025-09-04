@@ -11,7 +11,7 @@ A simple command-line expense tracker written in Python. This tool lets you add,
 - **Search by Category:** Find expenses by category and see subtotals.
 - **View Expenses:** Display all expenses sorted by date, with totals.
 - **View Summary:** See total, average, and highest expense.
-- **Category Summary:** View totals for each category.
+- **Category Summary:** View totals,average,percentage,highest and all expenses for each category.
 - **Monthly Reports:** View Expenses and Summary of the selected month.
 - **Export as CSV File:** Export all expenses to a CSV file in the project folder.
 - **Import Expenses from CSV File:** Import expenses from a CSV file into your tracker.

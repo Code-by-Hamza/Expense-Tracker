@@ -171,33 +171,45 @@ def view(expenses):
     print(f"\n-----💲Total so far: {total}-----")
 
 
-# summary / analyze
-def analyze(expenses):
-    if expenses:
-        amounts = [expense['amount'] for expense in expenses]
-        total = sum(amounts)
-        highest = max(amounts)
-        average = round(total / len(amounts), 2)
-        return (f"\n-----Summary-----\n💲Total Expense:{' ':<7}{total}\n"
-                f"💲Average per Expense: {average}\n"
-                f"💲Highest Expense:{' ':<5}{highest}\n")
-    else:
-        return "List is Empty!💨"
+#summary
+def summary(expenses):
+    if not expenses:
+        print("Nothing to Summarize T-T")
+        return
+    amounts = [expense['amount'] for expense in expenses]
+    total = sum(amounts)
+    highest = max(amounts)
+    average = round(total / len(amounts), 2)
+    print(f"\n      -----Summary-----\n💲Total Expense:{' ':<7}{total}\n"
+        f"💲Average per Expense: {average}\n"
+        f"💲Highest Expense:{' ':<5}{highest}\n")
+
 
 #category summary
-def category_summary(expences):
-    if not expences:
+def category_summary(expenses):
+    if not expenses:
         print("Nothing to Summarize T-T")
         return
     summary = {}
-    for expense in expences:
+    for expense in expenses:
         cat = expense['category']
         amt = expense['amount']
-        summary[cat] = summary.get(cat,0) + amt
+        if cat not in summary:
+            summary[cat] = []
+        summary[cat].append(amt)
     
-    print("\n----Category Summary----")
-    for cat,total in summary.items():
-        print(f"    {cat:<10}: {total}")
+    grand_total = sum(sum(amounts) for amounts in summary.values())
+    for i, (cat, amounts) in enumerate(summary.items(), start=1):
+        total = sum(amounts)
+        average = total / len(amounts)
+        highest = max(amounts)
+        percent = (total/grand_total) * 100
+        print(f"\n{i}. {cat} ({percent:.2f}%)")
+        print(f"➡ Total: {total}")
+        print(f"➡ Average: {average:.2f}")
+        print(f"➡ Highest: {highest}")
+        print(f"➡ Expenses Details: {', '.join(map(str, amounts))}")
+
 
 #edit expenses
 def edit_expenses(expenses):
