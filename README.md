@@ -1,7 +1,7 @@
 
 # Expense Tracker
 
-A simple command-line expense tracker written in Python. This tool lets you add, view (sorted by date), search, delete, edit, undo last action, summarize your expenses, view category summaries, export your data to CSV, and import expenses from CSV. All data is stored locally in JSON and CSV files.
+A simple command-line expense tracker written in Python. This tool lets you add, view (sorted by date), search, delete, edit, undo last action, view monthly reports, summarize your expenses, view category summaries, export your data to CSV, and import expenses from CSV. All data is stored locally in JSON and CSV files.
 
 ## Features
 - **Add Expense:** Log a new expense with category and amount.
@@ -12,6 +12,7 @@ A simple command-line expense tracker written in Python. This tool lets you add,
 - **View Expenses:** Display all expenses sorted by date, with totals.
 - **View Summary:** See total, average, and highest expense.
 - **Category Summary:** View totals for each category.
+- **Monthly Reports** View Expenses and Summary of the selected month.
 - **Export as CSV File:** Export all expenses to a CSV file in the project folder.
 - **Import Expenses from CSV File:** Import expenses from a CSV file into your tracker.
 - **Save & Exit:** Save all changes to `expenses.json` and exit.
@@ -52,9 +53,10 @@ A simple command-line expense tracker written in Python. This tool lets you add,
 4. ➡ Undo Last Action
 5. ➡ Search for a category
 6. ➡ View all Expenses
-7. ➡ View Summary
-8. ➡ View Category wise Summary
-9. ➡ Export Expenses as CSV File
-10.➡ Import Expenses from CSV File
-11.➡ Save & Exit
+7. ➡ Monthly Report
+8. ➡ View Summary
+9. ➡ View Category wise Summary
+10. ➡ Export Expenses as CSV File
+11.➡ Import Expenses from CSV File
+12.➡ Save & Exit
 ```

@@ -1,4 +1,4 @@
-from utils import load_file,menu,add,delete,search,view,analyze,undo_action
+from utils import load_file,menu,add,delete,search,view,analyze,undo_action,monthly_report
 from utils import category_summary,save_file,edit_expenses,export_to_csv,import_csv
 #main loop
 def main():
@@ -20,14 +20,16 @@ def main():
         elif choice == "6":
             view(expenses)
         elif choice == "7":
-            print(analyze(expenses))
+            monthly_report(expenses)
         elif choice == "8":
-            category_summary(expenses)
+            print(analyze(expenses))
         elif choice == "9":
-            export_to_csv(expenses)
+            category_summary(expenses)
         elif choice == "10":
-            import_csv(expenses)
+            export_to_csv(expenses)
         elif choice == "11":
+            import_csv(expenses)
+        elif choice == "12":
             save_file(expenses)
             break
         else:

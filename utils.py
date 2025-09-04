@@ -10,11 +10,12 @@ def menu():
     print("4. ➡ Undo Last Action")
     print("5. ➡ Search for a category")
     print("6. ➡ View all Expenses")
-    print("7. ➡ View Summary")
-    print("8. ➡ View Category wise Summary")
-    print("9. ➡ Export Expenses as CSV File")
-    print("10.➡ Import Expenses from CSV File")
-    print("11.➡ Save & Exit")
+    print("7. ➡ Monthly Report")
+    print("8. ➡ View Summary")
+    print("9. ➡ View Category wise Summary")
+    print("10. ➡ Export Expenses as CSV File")
+    print("11.➡ Import Expenses from CSV File")
+    print("12.➡ Save & Exit")
 
 #load file 
 def load_file(file="expenses.json"):
@@ -275,3 +276,37 @@ def import_csv(expenses, filename="expenses.csv"):
         print(f"{filename} not Found!")
     except Exception as e:
         print(f"Error importing from {filename}: {e}")
+
+#monthly report
+def monthly_report(expenses):
+    if not expenses:
+        print("No Expenses Found!")
+        return
+    user_input = input("Enter Month and Year:(eg. aug 25)  ").strip()
+    try:
+        target_date = datetime.strptime(user_input,"%b %y")
+    except ValueError:
+        print("Invalid Format! Please use 'Month YY'(eg. aug 25)")
+        return
+    filtered = []
+    for expense in expenses:
+        exp_date = datetime.strptime(expense['date'],"%a,%b %#d,%y")
+        if exp_date.month == target_date.month and exp_date.year == target_date.year:
+            filtered.append(expense)
+    if not filtered:
+        print(f"No Expenses Found for {user_input}.")
+        return
+    
+    print("\n----Expenses----")
+    for i,expense in enumerate(expenses,start=1):
+        print(f"{i}. {expense['date']:<14}{expense['category']:<13}{expense['amount']:<10}")
+    
+    amount = [exp['amount'] for exp in filtered]
+    total = sum(amount)
+    highest = max(amount)
+    average = total / len(amount)
+
+    print("\n---Summary---")
+    print(f"Total: {total}")
+    print(f"Highest: {highest}")
+    print(f"Average: {average:2f}")
