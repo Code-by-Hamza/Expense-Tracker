@@ -9,6 +9,7 @@ A simple command-line expense tracker written in Python. This tool lets you add,
 - **Edit Expense:** Update category, amount, or date for any expense.
 - **Undo Last Action:** Undo your previous add, edit, or delete (persistent across runs).
 - **Search by Category:** Find expenses by category and see subtotals.
+- **Search by Date:** Find expenses by date and see total.
 - **View Expenses:** Display all expenses sorted by date, with totals.
 - **View Summary:** See total, average, and highest expense.
 - **Category Summary:** View totals,average,percentage,highest and all expenses for each category.
@@ -51,12 +52,13 @@ A simple command-line expense tracker written in Python. This tool lets you add,
 2. ➡ Delete Expense
 3. ➡ Edit Expense
 4. ➡ Undo Last Action
-5. ➡ Search for a category
-6. ➡ View all Expenses
-7. ➡ Monthly Report
-8. ➡ View Summary
-9. ➡ View Category wise Summary
-10. ➡ Export Expenses as CSV File
-11.➡ Import Expenses from CSV File
-12.➡ Save & Exit
+5. ➡ Search by Date
+6. ➡ Search for a category
+7. ➡ View all Expenses
+8. ➡ Monthly Report
+9. ➡ View Summary
+10. ➡ View Category wise Summary
+11. ➡ Export Expenses as CSV File
+12.➡ Import Expenses from CSV File
+13.➡ Save & Exit
 ```

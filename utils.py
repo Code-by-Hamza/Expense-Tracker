@@ -8,14 +8,15 @@ def menu():
     print("2. ➡ Delete Expense")
     print("3. ➡ Edit Expense")
     print("4. ➡ Undo Last Action")
-    print("5. ➡ Search for a category")
-    print("6. ➡ View all Expenses")
-    print("7. ➡ Monthly Report")
-    print("8. ➡ View Summary")
-    print("9. ➡ View Category wise Summary")
-    print("10. ➡ Export Expenses as CSV File")
-    print("11.➡ Import Expenses from CSV File")
-    print("12.➡ Save & Exit")
+    print("\n5. ➡ Search by Date")
+    print("6. ➡ Search for a category")
+    print("7. ➡ View all Expenses")
+    print("8. ➡ Monthly Report")
+    print("9. ➡ View Summary")
+    print("10.➡ View Category wise Summary")
+    print("\n11.➡ Export Expenses as CSV File")
+    print("12.➡ Import Expenses from CSV File")
+    print("13.➡ Save & Exit")
 
 #load file 
 def load_file(file="expenses.json"):
@@ -79,10 +80,6 @@ def undo_action(expenses):
 
     clear_undofile()
 
-
-
-
-
 #add expenses
 def add(expenses):
     while True:
@@ -94,7 +91,7 @@ def add(expenses):
     
     while True:
         try:
-            amount = int(input("Enter amount:  "))
+            amount = float(input("Enter amount:  "))
             break
         except ValueError:
             print("❌ Invalid Number! Please Enter digits")
@@ -138,19 +135,50 @@ def delete(expenses):
 
 #search expenses 
 def search(expenses):
+    if not expenses:
+        print("\n  List is empty💨")
+        return
     select = input("🔎Search by Category: ").lower().strip()
     result = [expense for expense in expenses if select == expense['category']]
-
+    subtotal = 0
     if result:
         print(f"\n-----Results for {select}:-----")
         for i,expense in enumerate(result,start=1):
             print(f"{i}. {expense['date']:<14} {expense['category']:<10}Amount: {expense['amount']:<10}")
-            subtotal = 0
+            
             subtotal += expense['amount']
         print(f"\n-----💲Subtotal: {subtotal}-----")
     else:
         print(f"❌{select} is not present in expenses!")
 
+#search by date 
+def search_date(expenses):
+    if not expenses:
+        print("\n  List is empty💨")
+        return
+    selected = input("Enter a Date to Search:(eg. 25 sep 25)")
+    try:
+        target_date = datetime.strptime(selected,"%d %b %y")
+    except ValueError:
+        print("Invalid Format! Please use 'Date Month YY'(eg. 02 aug 25)")
+        return
+
+    filtered = []
+    for expense in expenses:
+        exp_date = datetime.strptime(expense['date'],"%a,%b %#d,%y")
+        if exp_date.day == target_date.day and exp_date.month == target_date.month and exp_date.year == target_date.year:
+            filtered.append(expense)
+    if not filtered:
+        print(f"No Expenses Found for {selected}.")
+        return
+    
+    print(f"\nExpenses of {selected}")
+    for i,expense in enumerate(filtered,start=1):
+        print(f"{i}. {expense['category']:<13}{expense['amount']:<10}")
+    amount = [exp['amount'] for exp in filtered]
+    total = sum(amount)
+    print(f"----Total: {total}----")
+    
 
 #view all expenses 
 def view(expenses):
@@ -270,22 +298,30 @@ def export_to_csv(expenses,filename="expenses.csv"):
 
 #import from csv
 def import_csv(expenses, filename="expenses.csv"):
+    for row in reader:
+        if not all(field in row for field in ["category", "amount", "date"]):
+            print("Skipping row with missing fields:", row)
+            continue
+
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
         filepath = os.path.join(script_dir, filename)
-        with open(filepath,mode="r") as f:
+        with open(filepath, mode="r") as f:
             reader = csv.DictReader(f)
-            for row in reader :
+            for row in reader:
+                if not all(field in row and row[field].strip() for field in ["category", "amount", "date"]):
+                    print("Skipping row with missing fields:", row)
+                    continue
                 expense = {
                     "category": row["category"].lower().strip(),
-                    "amount": int(row["amount"]),
-                    "date": row["date"]
+                    "amount": int(row["amount"].strip()),
+                    "date": row["date"].strip()
                 }
                 if expense not in expenses:
                     expenses.append(expense)
-        print(f"Imported expenses from {filename} successfuly!")
+        print(f"Imported expenses from {filename} successfully!")
     except FileNotFoundError:
-        print(f"{filename} not Found!")
+        print(f"{filename} not Found! (paste the csv file in the project root folder ie. with 'main.py')")
     except Exception as e:
         print(f"Error importing from {filename}: {e}")
 
@@ -310,8 +346,8 @@ def monthly_report(expenses):
         return
     
     print("\n----Expenses----")
-    for i,expense in enumerate(expenses,start=1):
-        print(f"{i}. {expense['date']:<14}{expense['category']:<13}{expense['amount']:<10}")
+    for i,expense in enumerate(filtered,start=1):
+        print(f"{i}. {expense['date']:<15}{expense['category']:<13}{expense['amount']:<10}")
     
     amount = [exp['amount'] for exp in filtered]
     total = sum(amount)
@@ -321,4 +357,4 @@ def monthly_report(expenses):
     print("\n---Summary---")
     print(f"Total: {total}")
     print(f"Highest: {highest}")
-    print(f"Average: {average:2f}")
+    print(f"Average: {average:.2f}")
