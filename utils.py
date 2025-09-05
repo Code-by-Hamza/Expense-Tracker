@@ -321,7 +321,7 @@ def import_csv(expenses, filename="expenses.csv"):
                     expenses.append(expense)
         print(f"Imported expenses from {filename} successfully!")
     except FileNotFoundError:
-        print(f"{filename} not Found! (paste the csv file in the project root folder ie. with 'main.py')")
+        print(f"{filename} not Found!(paste the csv file in the project root folder ie. with 'main.py')")
     except Exception as e:
         print(f"Error importing from {filename}: {e}")
 
